@@ -1,0 +1,26 @@
+{
+  "name": "irc-upload",
+  "version": "1.0.0",
+  "description": "Simplest image sharing web app ever",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mime-types": "^2.1.26",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harrego/irceeingurimgs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harrego/irceeingurimgs/issues"
+  },
+  "homepage": "https://github.com/harrego/irceeingurimgs#readme"
+}
