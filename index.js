@@ -79,7 +79,7 @@ app.get("/hdc.sh", (req, res) => {
   res.sendFile(path.join(__dirname + "/hdc.sh"))
 })
 
-app.use("/", express.static("static"))
+app.use("/", express.static(imagePath))
 
 const port = process.env.PORT || 3000
 app.listen(port, err => {
