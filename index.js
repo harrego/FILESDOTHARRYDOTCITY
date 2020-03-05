@@ -1,22 +1,18 @@
 const password = ""
-const hostname = "localhost:3000/"
+const hostname = ""
 
 const fs = require("fs")
 const path = require("path")
 
 // setup
-const imagePath = path.join(__dirname + "/images")
+const imagePath = path.join(__dirname, "static")
 if (!fs.existsSync(imagePath)) {
   fs.mkdirSync(imagePath)
 }
 
 // multer
 const multer = require("multer")
-const upload = multer({
-  limits: {
-    fileSize: 4 * 1024 * 1024,
-  }
-})
+const upload = multer()
 
 // express server
 const express = require("express")
@@ -26,8 +22,7 @@ const mime = require("mime-types")
 const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 
-function newId(length) {
-   var characters = "abcdefghijklmnopqrstuvwxyz"
+function newId(length, characters = "abcdefghijklmnopqrstuvwxyz") {
    var charactersLength = characters.length
 
    var result = ""
@@ -37,13 +32,8 @@ function newId(length) {
    return result
 }
 
-app.post("/post", upload.single("image"), async (req, res) => {
-  if (!req.body.password) {
-    res.sendStatus(400)
-    return
-  }
-
-  if (req.body.password != password) {
+app.post("/", upload.single("file"), async (req, res) => {
+  if (!req.body.password || req.body.password != password) {
     res.sendStatus(400)
     return
   }
@@ -53,34 +43,43 @@ app.post("/post", upload.single("image"), async (req, res) => {
     console.log("here")
     return
   }
-  let extension = path.extname(req.file.originalname)
-  let id = newId(4) + extension
-  fs.writeFile(path.join(imagePath + "/" + id), req.file.buffer, (err) => {
+
+  const imageBasename = path.basename(req.file.originalname)
+  let newDirectoryName
+  if (req.body.x) {
+    newDirectoryName = newId(8, "69xX")
+  } else {
+    newDirectoryName = newId(8)
+  }
+  const newDirectoryPath = path.join(imagePath, newDirectoryName)
+  fs.mkdir(newDirectoryPath, err => {
     if (err) {
       console.log(err)
-      res.status(500).send("err!!!")
+      res.sendStatus(500)
       return
     }
 
-    res.status(200).send(hostname + id)
+    const newImagePath = path.join(newDirectoryPath, imageBasename)
+    fs.writeFile(newImagePath, req.file.buffer, err => {
+      if (err) {
+        console.log(err)
+        res.sendStatus(500)
+        return
+      }
+      res.status(200).send(hostname + path.join(newDirectoryName, imageBasename))
+    })
   })
 })
 
-app.get("/upload", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/upload.html"))
 })
 
-app.get("/:imageId", async (req, res) => {
-  fs.readFile(path.join(imagePath + "/" + req.params.imageId), (err, data) => {
-    if (err) {
-      res.sendStatus(404)
-      return
-    }
-
-    res.set("Content-Type", mime.contentType(req.params.imageId))
-    res.send(data)
-  })
+app.get("/hdc.sh", (req, res) => {
+  res.sendFile(path.join(__dirname + "/hdc.sh"))
 })
+
+app.use("/", express.static("static"))
 
 const port = process.env.PORT || 3000
 app.listen(port, err => {
