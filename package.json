@@ -1,7 +1,7 @@
 {
-  "name": "irc-upload",
+  "name": "FILESDOTHARRYDOTCITY",
   "version": "1.0.0",
-  "description": "Simplest image sharing web app ever",
+  "description": "Temporary file sharing",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harrego/irceeingurimgs.git"
+    "url": "git+https://github.com/harrego/FILESDOTHARRYDOTCITY.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/harrego/irceeingurimgs/issues"
+    "url": "https://github.com/harrego/FILESDOTHARRYDOTCITY/issues"
   },
-  "homepage": "https://github.com/harrego/irceeingurimgs#readme"
+  "homepage": "https://github.com/harrego/FILESDOTHARRYDOTCITY#readme"
 }
